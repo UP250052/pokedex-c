@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, TextInput } from "react-native";
 import PokemonCard from "../components/PokemonCards";
+import { SearchBar } from "react-native-screens";
+import pokemon from "./pokemon";
 
 interface Pokemon {
   name: string;
@@ -8,7 +10,9 @@ interface Pokemon {
 }
 
 export default function Index() {
+
   const [results, setResults] = useState<Pokemon[]>([]);
+
   useEffect(() => {
     console.log("Entre en pantalla ");
     getPokemons();
@@ -32,8 +36,24 @@ export default function Index() {
     }
   };
 
+  const filterPokemons = (text: string) => {
+    if (text === "") {
+      getPokemons();
+      return;
+    }else{
+      const arrayFiltered = results.filter(item => item.name.includes(text.toLowerCase()));
+      setResults(arrayFiltered);
+    }
+    
+  }
+
   return (
     <ScrollView>
+          <TextInput
+        placeholder="Search Pokemon"
+        onChangeText={filterPokemons}
+      />
+
       {results.map((item) => {
         return (
           <PokemonCard

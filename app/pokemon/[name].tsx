@@ -17,6 +17,7 @@
     const getInfo = async () => {
         const URL = `https://pokeapi.co/api/v2/pokemon/${params.name}`;
         const response = await fetch(URL);
+        
         if (response.ok) {
         const data = await response.json();
         setInfo(data);
